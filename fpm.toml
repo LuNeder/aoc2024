@@ -6,6 +6,7 @@ maintainer = "luana@luana.dev.br"
 copyright = "Copyright 2024, Luana"
 executable = [
   { name = "one", source-dir = "src/1", main = "1.f" },
+  { name = "two", source-dir = "src/2", main = "2.f" },
 ]
 [build]
 auto-executables = true
