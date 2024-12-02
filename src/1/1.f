@@ -1,16 +1,16 @@
       module sorting
       contains
       ! Sorts a list in crescent order
-      subroutine sort(a, lines)
-        real, dimension(:), allocatable :: a ! will allocate itself it seems
+      subroutine sort(col, a, lines)
+        real, dimension(:,:), allocatable :: a ! will allocate itself it seems
         real aux
-        integer lines, i, j
+        integer lines, i, j, col
         do i = 1, lines
           do j = i+1, lines
-            if (a(j) < a(i)) then
-              aux = a(i)
-              a(i) = a(j)
-              a(j) = aux
+            if (a(col, j) < a(col, i)) then
+              aux = a(col, i)
+              a(col, i) = a(col, j)
+              a(col, j) = aux
             end if
           end do
         end do
@@ -20,9 +20,7 @@
       ! implicit none defined by fpm.toml. Not sure if I like using implicit none tbh (implicit declaration is interesting), but at least I can't misspell a var without it warning me...
       program one
         use sorting
-        real, dimension(:), allocatable :: list1
-        real, dimension(:), allocatable :: list2
-        real, dimension(:,:), allocatable :: file2d
+        real, dimension(:,:), allocatable :: lists
         real totdist
         integer lines, io, i
 
@@ -36,31 +34,25 @@
           lines = lines + 1
         end do
         lines = lines - 1
-        allocate(list1(lines), list2(lines), file2d(2, lines))
+        allocate(lists(2, lines))
         
         rewind(12) ! Start over from 1st line
-        read(12, *) file2d ! Read right and left list from input
+        read(12, *) lists ! Read right and left list from input
         close(12)
-        
-        ! I could probably clean this up to not require this, but I added the file2d temp var after the rest was done and I noticed the file wasn't being read correctly,
-        ! so having a single 2d vector instead of two 1d vectors would mean I'd have to redo the sorting subroutine so nah...
-        list1 = file2d(1, :)
-        list2 = file2d(2, :)
 
-        !write(*,*) list1
-        !write (*,*) list2
+        !write(*,*) lists(1,:)
+        !write (*,*) lists(2,:)
         
         ! Order
-        call sort(list1, lines)
-        call sort(list2, lines)
+        call sort(1, lists, lines)
+        call sort(2, lists, lines)
         
+        ! Calculate total distance
+        totDist = 0.0e0
         do i = 1, lines
-          totDist = (abs(list1(i) - list2(i))) + totDist
+          totDist = (abs(lists(1, i) - lists(2, i))) + totDist
         enddo
 
-
-        !write(*,*) list1
-        !write (*,*) list2
         write (*,*) totDist
       end program
       
