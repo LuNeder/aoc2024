@@ -1,0 +1,21 @@
+name = "aoc2024"
+version = "0.1.0"
+license = "LPPL-1.3c"
+author = "Luana"
+maintainer = "luana@luana.dev.br"
+copyright = "Copyright 2024, Luana"
+executable = [
+  { name = "one", source-dir = "src/1", main = "1.f" },
+]
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+module-naming = false
+[install]
+library = false
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
